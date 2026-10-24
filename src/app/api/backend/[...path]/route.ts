@@ -96,7 +96,9 @@ async function proxy(request: NextRequest, context: RouteContext): Promise<NextR
     headers: { "content-type": contentType, ...(requestId ? { "x-request-id": requestId } : {}) },
   });
 
-  for (const name of ["retry-after", "content-disposition", "content-length"]) {
+  // content-length is not forwarded: fetch decompresses the body, so the upstream (compressed)
+  // length would truncate the response.
+  for (const name of ["retry-after", "content-disposition"]) {
     const value = upstream.headers.get(name);
     if (value) response.headers.set(name, value);
   }
