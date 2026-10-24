@@ -14,7 +14,10 @@ import {
  * - On login/register/2FA challenge, moves the token from the response body into the cookie.
  * - On logout or a 401, clears the session cookies.
  */
-const BACKEND_URL = (process.env.BACKEND_URL ?? "http://localhost:8000").replace(/\/$/, "");
+const BACKEND_URL = (process.env.BACKEND_URL ?? "https://socialapi.whitefirms.org/public").replace(
+  /\/$/,
+  "",
+);
 const SAFE_SEGMENT = /^[A-Za-z0-9._~-]+$/;
 const FORWARDED_REQUEST_HEADERS = [
   "accept",

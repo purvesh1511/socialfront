@@ -7,7 +7,7 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
 ];
 
-const backendUrl = new URL(process.env.BACKEND_URL ?? "http://localhost:8000");
+const backendUrl = new URL(process.env.BACKEND_URL ?? "https://socialapi.whitefirms.org/public");
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -18,7 +18,8 @@ const nextConfig: NextConfig = {
         protocol: backendUrl.protocol.replace(":", "") as "http" | "https",
         hostname: backendUrl.hostname,
         port: backendUrl.port,
-        pathname: "/storage/**",
+        // BACKEND_URL may carry a base path (e.g. https://api.example.com/public).
+        pathname: `${backendUrl.pathname.replace(/\/$/, "")}/storage/**`,
       },
     ],
   },
